@@ -8,36 +8,44 @@ loadListeners()
 
 //Add listeners to the button to add elements and to the productList
 function loadListeners(){
-    buttonAdd.addEventListener('click',addElement)
+    buttonAdd.addEventListener('click',createElementObject)
     productsList.addEventListener('click',modifyTotal)
+}
+
+
+function createElementObject(){    
+    let product={
+        name:elementToBeAdded.value,
+        amount:0
+    }
+    //Once the objet is created let's create the HTML    
+    insertIntoTable(product)
+
 }
 
 //This function add elements to the table of products
 //Each row has a input, the name of the product, and two buttons to add or substract products
-function addElement(){
+function insertIntoTable(product){
     const row= document.createElement('tr')
     row.innerHTML=`
     <td> 
-    <input type="text" id="${elementToBeAdded.value}-item"> ${elementToBeAdded.value} <button id="${elementToBeAdded.value}-add">+</button> <button id="${elementToBeAdded.value}-less">-</button>
+    <input type="text" id="${product.name}-item"> ${product.name} <button id="${product.name}-add">+</button> <button id="${product.name}-less">-</button>
     </td>
     `
     //Once the HTML is builded, the element is added to the DOM
     table.appendChild(row)
-    //... and of course... to the Local Storage :)
-    addElementToLS(elementToBeAdded.value)
-
+    // and of course ... to the Local Storage
+    addElementToLS(product)
+    
 }
 
-function addElementToLS(row){
-    let product={
-        name:row,
-        amount:0
-    }
+const addElementToLS = (product) =>{
     let products
     products=getProductsFromLS()
-    products.push(row)
+    products.push(product)
     localStorage.setItem('products',JSON.stringify(products))
 }
+
 
 var getProductsFromLS=()=>{
     let productsLS//Array to hold the products or an empty array
@@ -51,7 +59,7 @@ var getProductsFromLS=()=>{
 
 const getTotal=()=>{
     let productsFromLS,total
-    productsFromLS=getProductsFromLS
+    //productsFromLS=getProductsFromLS
     
 }
 
