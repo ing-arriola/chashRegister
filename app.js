@@ -76,7 +76,7 @@ function increaseNumberOfElements (id) {
     products.forEach((element,index) => {
         if(id.search(element.name) !== -1){
             products[index].amount++
-            updateElementsOnDOM(products[index])//Call function to update number of elements on the DOM
+            updateElementsOnDOM(products[index])//Call function to update number of elements in the DOM
         }
     });
     localStorage.setItem('products',JSON.stringify(products))
@@ -96,7 +96,7 @@ const decreaseNumberOfElements= (id) => {
     return products
 }
 
-//Function to modify the individual vaues on the DOM
+//Function to modify the individual vaues in the DOM
 const updateElementsOnDOM= (elementModified)=>{
     document.getElementById(elementModified.name+"-item").value=elementModified.amount
 }
