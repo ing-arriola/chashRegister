@@ -6,11 +6,14 @@ const productsTotal=document.getElementById('total')
 
 loadListeners()
 
+//Add listeners to the button to add elements and to the productList
 function loadListeners(){
     buttonAdd.addEventListener('click',addElement)
     productsList.addEventListener('click',modifyTotal)
 }
 
+//This function add elements to the table of products
+//Each row has a input, the name of the product, and two buttons to add or substract products
 function addElement(){
     const row= document.createElement('tr')
     row.innerHTML=`
@@ -18,12 +21,18 @@ function addElement(){
     <input type="text" id="${elementToBeAdded.value}-item"> ${elementToBeAdded.value} <button id="${elementToBeAdded.value}-add">+</button> <button id="${elementToBeAdded.value}-less">-</button>
     </td>
     `
+    //Once the HTML is builded, the element is added to the DOM
     table.appendChild(row)
-    addElementToLS(row)
+    //... and of course... to the Local Storage :)
+    addElementToLS(elementToBeAdded.value)
 
 }
 
 function addElementToLS(row){
+    let product={
+        name:row,
+        amount:0
+    }
     let products
     products=getProductsFromLS()
     products.push(row)
@@ -44,6 +53,10 @@ const getTotal=()=>{
     let productsFromLS,total
     productsFromLS=getProductsFromLS
     
+}
+
+const updateNumberOfElements= () =>{
+
 }
 
 function modifyTotal(e){
