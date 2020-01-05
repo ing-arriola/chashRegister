@@ -29,7 +29,9 @@ function insertIntoTable(product){
     const row= document.createElement('tr')
     row.innerHTML=`
     <td> 
-    <input type="text" id="${product.name}-item"> ${product.name} <button id="${product.name}-add">+</button> <button id="${product.name}-less">-</button>
+    <input type="text" id="${product.name}-item"> ${product.name} 
+    <button id="${product.name}-add">+</button> 
+    <button id="${product.name}-less">-</button>
     </td>
     `
     //Once the HTML is builded, the element is added to the DOM
@@ -39,6 +41,8 @@ function insertIntoTable(product){
     
 }
 
+//This functions receives a product and push it on an array of objects
+//The array is passed trhogh a strinify function and stores in LS
 const addElementToLS = (product) =>{
     let products
     products=getProductsFromLS()
@@ -57,24 +61,55 @@ var getProductsFromLS=()=>{
     return productsLS//Retrieve data... a empty array or products, it depends of the state of LS
 }
 
-const getTotal=()=>{
-    let productsFromLS,total
-    //productsFromLS=getProductsFromLS
+const getTotal=(products)=>{
+    let suma=0
+    products.forEach(element => {
+        suma=suma+Number(element.amount)
+    });
+    return suma
     
 }
 
-const updateNumberOfElements= () =>{
-
+//This functions increase the number of elements in one position of the array stored in LS
+function increaseNumberOfElements (id) {
+    console.log('toy sumando')
+    let products=getProductsFromLS()    
+    products.forEach((element,index) => {
+        if(id.search(element.name) !== -1){
+            products[index].amount++
+        }
+    });
+    localStorage.setItem('products',JSON.stringify(products))
+    return products
 }
 
+//This functions decrase the number of elements in one position of the array stored in LS
+const decreaseNumberOfElements= (id) => {
+    console.log('toy restando')
+    let products=getProductsFromLS()
+    products.forEach((element,index) => {
+        if(id.search(element.name) !== -1){
+            products[index].amount--
+        }
+    });
+    localStorage.setItem('products',JSON.stringify(products))
+    return products
+}
+
+
+
 function modifyTotal(e){
-    var total=0
+    let productsFromLS, total
     pressed=e.target.id
-    if (pressed.search('add')) {
-        total++
-    }else if (pressed.search('less')) {
-        total--
+    
+    if (pressed.search('add') !== -1) {
+        console.log(e.target.id)
+        productsFromLS=increaseNumberOfElements(pressed)
+    }else if (pressed.search('less') !== -1) {
+        console.log('toy aca')
+        productsFromLS=decreaseNumberOfElements(pressed)
     }
+    total=getTotal(productsFromLS)
     //number('nmero')    //String to number
     productsTotal.innerText=total
 }
