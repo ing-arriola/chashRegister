@@ -28,7 +28,7 @@ function createElementObject(){
 function insertIntoTable(product){
     const row= document.createElement('tr')
     row.innerHTML=`
-    <td> 
+    <td id=hola> 
     <input type="text" id="${product.name}-item"> ${product.name} 
     <button id="${product.name}-add">+</button> 
     <button id="${product.name}-less">-</button>
@@ -72,11 +72,11 @@ const getTotal=(products)=>{
 
 //This functions increase the number of elements in one position of the array stored in LS
 function increaseNumberOfElements (id) {
-    console.log('toy sumando')
     let products=getProductsFromLS()    
     products.forEach((element,index) => {
         if(id.search(element.name) !== -1){
             products[index].amount++
+            updateElementsOnDOM(products[index])//Call function to update number of elements on the DOM
         }
     });
     localStorage.setItem('products',JSON.stringify(products))
@@ -85,33 +85,36 @@ function increaseNumberOfElements (id) {
 
 //This functions decrase the number of elements in one position of the array stored in LS
 const decreaseNumberOfElements= (id) => {
-    console.log('toy restando')
     let products=getProductsFromLS()
     products.forEach((element,index) => {
         if(id.search(element.name) !== -1){
             products[index].amount--
+            updateElementsOnDOM(products[index])
         }
     });
     localStorage.setItem('products',JSON.stringify(products))
     return products
 }
 
+//Function to modify the individual vaues on the DOM
+const updateElementsOnDOM= (elementModified)=>{
+    document.getElementById(elementModified.name+"-item").value=elementModified.amount
+}
 
 
 function modifyTotal(e){
     let productsFromLS, total
     pressed=e.target.id
-    
+    //First we need to know if the button preseed if for increase or decrease elements
     if (pressed.search('add') !== -1) {
-        console.log(e.target.id)
-        productsFromLS=increaseNumberOfElements(pressed)
+        productsFromLS=increaseNumberOfElements(pressed) // if the id contains the word 'add' then the elements will be increased
     }else if (pressed.search('less') !== -1) {
-        console.log('toy aca')
-        productsFromLS=decreaseNumberOfElements(pressed)
+        productsFromLS=decreaseNumberOfElements(pressed)// other way if the if contains the word 'less' .. then the elements will be decreased
     }
+
     total=getTotal(productsFromLS)
-    //number('nmero')    //String to number
-    productsTotal.innerText=total
+    
+    productsTotal.innerText=total 
 }
 
 
