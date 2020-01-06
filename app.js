@@ -30,8 +30,8 @@ function insertIntoTable(product){
     row.innerHTML=`
     <td id=hola> 
     <input type="text" id="${product.name}-item"> ${product.name} 
-    <button id="${product.name}-add">+</button> 
-    <button id="${product.name}-less">-</button>
+    <button id="${product.name}-add" type="button" class="btn btn-primary">+</button> 
+    <button id="${product.name}-less" type="button" class="btn btn-danger">-</button>
     </td>
     `
     //Once the HTML is builded, the element is added to the DOM
