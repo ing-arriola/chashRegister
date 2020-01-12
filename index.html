@@ -16,12 +16,13 @@
     <h2>
         By: Jaime Arriola
     </h2>
+    <h4>Insert a new product</h4>
     <div>
-        <p>Insert a new product</p>
-        <input type="text" onfocus="this.value=''" id="input-box" >
+        <input type="text" onfocus="this.value=''" id="input-box" required>
         <button id="add-element" type="button" class="btn btn-primary">Add</button>
     </div>
     <br>
+    <h4>Products List</h4>
     <div id="products-list">
         <table id="products-table">
     
@@ -31,7 +32,7 @@
    <div>
         <table id="totalProducts">
             <tr>
-                <td>Total:</td>
+                <td id="total-tag">Total:</td>
                 <td id="total"></td>
             </tr>
         </table>
