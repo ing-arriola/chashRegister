@@ -9,4 +9,18 @@ div{
 h1,h2{
     text-align: center;
 }
+table {
+    margin: 0 auto;
+    text-align: center;
+
+}
+td{
+    height: 50px;
+    width: 50px;
+}
+input{
+    text-align: center;
+    
+}
+
 

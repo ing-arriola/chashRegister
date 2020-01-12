@@ -10,8 +10,37 @@ loadListeners()
 function loadListeners(){
     buttonAdd.addEventListener('click',createElementObject)
     productsList.addEventListener('click',modifyTotal)
+    document.addEventListener('DOMContentLoaded',readLocalStorage)
 }
 
+//Function to get products from LS... and add it to the DOM
+function readLocalStorage(){
+    let listOfProducts, total
+    let array=[]
+    listOfProducts=getProductsFromLS()
+    listOfProducts.forEach(element => {
+        const row= document.createElement('tr')
+        row.innerHTML=`
+        <td> 
+            <input type="text" id="${element.name}-item" value=${element.amount} size="5"> 
+        </td>
+        <td>
+            ${element.name}
+        </td>
+        <td> 
+            <button id="${element.name}-add" type="button" class="btn btn-primary">+</button> 
+        </td>
+        <td> 
+            <button id="${element.name}-less" type="button" class="btn btn-danger">-</button>
+        </td>
+        `
+        table.appendChild(row)
+        total=getTotal(listOfProducts)
+        productsTotal.innerText=total
+    });
+    
+    
+}
 
 function createElementObject(){    
     let product={
@@ -26,18 +55,26 @@ function createElementObject(){
 //This function add elements to the table of products
 //Each row has a input, the name of the product, and two buttons to add or substract products
 function insertIntoTable(product){
+    let total
     const row= document.createElement('tr')
     row.innerHTML=`
-    <td id=hola> 
-    <input type="text" id="${product.name}-item"> ${product.name} 
-    <button id="${product.name}-add" type="button" class="btn btn-primary">+</button> 
-    <button id="${product.name}-less" type="button" class="btn btn-danger">-</button>
+    <td> 
+        <input type="text" id="${product.name}-item" size="5">
+    </td>
+    <td>
+        ${product.name} 
+    </td>
+    <td> 
+        <button id="${product.name}-add" type="button" class="btn btn-primary">+</button> 
+    </td>
+    <td> 
+        <button id="${product.name}-less" type="button" class="btn btn-danger">-</button>
     </td>
     `
     //Once the HTML is builded, the element is added to the DOM
     table.appendChild(row)
     // and of course ... to the Local Storage
-    addElementToLS(product)
+    addElementToLS(product) 
     
 }
 
@@ -63,6 +100,7 @@ var getProductsFromLS=()=>{
 
 const getTotal=(products)=>{
     let suma=0
+    console.log(products)
     products.forEach(element => {
         suma=suma+Number(element.amount)
     });
@@ -103,18 +141,27 @@ const updateElementsOnDOM= (elementModified)=>{
 
 
 function modifyTotal(e){
-    let productsFromLS, total
+    let productsFromLS, total,ok
+    ok=0
     pressed=e.target.id
     //First we need to know if the button preseed if for increase or decrease elements
+    
     if (pressed.search('add') !== -1) {
-        productsFromLS=increaseNumberOfElements(pressed) // if the id contains the word 'add' then the elements will be increased
+        productsFromLS=increaseNumberOfElements(e.target.id) // if the id contains the word 'add' then the elements will be increased
+        ok=1
     }else if (pressed.search('less') !== -1) {
+        
         productsFromLS=decreaseNumberOfElements(pressed)// other way if the if contains the word 'less' .. then the elements will be decreased
+        ok=1
     }
 
-    total=getTotal(productsFromLS)
-    
-    productsTotal.innerText=total 
+    if (ok===1){
+        total=getTotal(productsFromLS)
+        productsTotal.innerText=total 
+    }
+        
+
+
 }
 
 
