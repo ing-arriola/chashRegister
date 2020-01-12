@@ -43,12 +43,18 @@ function readLocalStorage(){
 }
 
 function createElementObject(){    
-    let product={
-        name:elementToBeAdded.value,
-        amount:0
+    if (elementToBeAdded.value !== ''){
+        let product={
+            name:elementToBeAdded.value,
+            amount:0
+        }    
+        //Once the objet is created let's create the HTML    
+        insertIntoTable(product)
+    }else{
+        alert('El producto debe tener un nombre')
     }
-    //Once the objet is created let's create the HTML    
-    insertIntoTable(product)
+    
+    
 
 }
 
@@ -100,7 +106,6 @@ var getProductsFromLS=()=>{
 
 const getTotal=(products)=>{
     let suma=0
-    console.log(products)
     products.forEach(element => {
         suma=suma+Number(element.amount)
     });
